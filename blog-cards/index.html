@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog posts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    img {
+      max-width: 100%;
+    }
+    .posts {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .post-card {
+      width: 50%;
+      margin: 1rem;
+      border: 1px solid gray;
+      border-radius: .5rem;
+    }
+    .post-card img {
+      border-radius: .5rem .5rem 0 0;
+    }
+    .post-title {
+      margin-bottom: 1rem;
+      padding: .8rem;
+      font-style: 1rem;
+    }
+    .tags {
+      display: flex;
+      padding: .8rem;
+    }
+    .tags span {
+      display: inline-block;
+      margin: .2rem;
+      padding: .2rem;
+      background-color: #efefef;
+      border-radius: .2rem;
+      font-size: .7rem;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="posts">
+    <div class="post-card"></div>
+  </div>
+  <script>
+    const url = 'https://dev.to/api/articles?username=l4ur4oliveira';
+    const wrapper = document.querySelector('.posts');
+
+    function fetchData(url) {
+      fetch(url)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          // console.log(data);
+          const html = data.map(post => {
+            return `
+              <div class="post-card">
+                <img src="${post.cover_image}">
+                <h2 class="post-title">${post.title}</h2>
+                <p class="tags">
+                  <span>${post.tags}</span>
+                </p>
+              </div>
+            `;
+          }).join('');
+          wrapper.innerHTML = html;
+        });
+    }
+
+    fetchData(url);
+  </script>
+</body>
+</html>
